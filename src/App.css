@@ -1,7 +1,18 @@
 body {
-  background-color: rgb(216, 216, 216);
+  background-color: rgb(146, 146, 146);
 }
 
 .App {
   text-align: center;
+  margin-top: 5rem;
+}
+
+.card {
+  margin-top: 10%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  width: 100%;
+  padding: 2rem;
 }

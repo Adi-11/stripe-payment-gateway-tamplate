@@ -33,30 +33,31 @@ const useStyles = makeStyles((theme) => ({
       theme.palette.type === "light"
         ? theme.palette.grey[200]
         : theme.palette.grey[700],
+    paddingLeft: 40,
+    paddingRight: 40,
   },
   cardPricing: {
     display: "flex",
     justifyContent: "center",
     alignItems: "baseline",
-    marginBottom: theme.spacing(2),
+    marginBottom: theme.spacing(5),
+    width: "80%",
   },
 }));
 
-const tiers = [
-  {
-    title: "Pro",
-    subheader: "Most popular",
-    price: "500",
-    description: [
-      "20 users included",
-      "10 GB of storage",
-      "Help center access",
-      "Priority email support",
-    ],
-    buttonText: "Get started",
-    buttonVariant: "contained",
-  },
-];
+const tiers = {
+  title: "Pro",
+  subheader: "Most popular",
+  price: "500",
+  description: [
+    "20 users included",
+    "10 GB of storage",
+    "Help center access",
+    "Priority email support",
+  ],
+  buttonText: "Get started",
+  buttonVariant: "contained",
+};
 
 const App: React.FC = () => {
   const [product, setProduct] = useState({
@@ -102,65 +103,52 @@ const App: React.FC = () => {
         >
           Pricing
         </Typography>
-        <Container maxWidth="md" component="main">
-          <Grid container spacing={5} alignItems="flex-end">
-            {tiers.map((tier) => (
-              // Enterprise card is full width at sm breakpoint
-              <Grid
-                item
-                key={tier.title}
-                xs={12}
-                sm={tier.title === "Enterprise" ? 12 : 6}
-                md={4}
-              >
-                <Card>
-                  <CardHeader
-                    title={tier.title}
-                    subheader={tier.subheader}
-                    titleTypographyProps={{ align: "center" }}
-                    subheaderTypographyProps={{ align: "center" }}
-                    className={classes.cardHeader}
-                  />
-                  <CardContent>
-                    <div className={classes.cardPricing}>
+        <div className="priceContainer">
+          <Container maxWidth="lg" component="main">
+            <Grid container spacing={0} alignItems="center">
+              <Card className="card">
+                <CardHeader
+                  title={tiers.title}
+                  subheader={tiers.subheader}
+                  titleTypographyProps={{ align: "center" }}
+                  subheaderTypographyProps={{ align: "center" }}
+                  className={classes.cardHeader}
+                />
+                <CardContent>
+                  <div className={classes.cardPricing}>
+                    <Typography component="h2" variant="h3" color="textPrimary">
+                      ₹{product.price}
+                    </Typography>
+                  </div>
+                  <ul>
+                    {tiers.description.map((line) => (
                       <Typography
-                        component="h2"
-                        variant="h3"
-                        color="textPrimary"
+                        component="li"
+                        variant="subtitle1"
+                        align="center"
+                        key={line}
                       >
-                        ₹{product.price}
+                        {line}
                       </Typography>
-                    </div>
-                    <ul>
-                      {tier.description.map((line) => (
-                        <Typography
-                          component="li"
-                          variant="subtitle1"
-                          align="center"
-                          key={line}
-                        >
-                          {line}
-                        </Typography>
-                      ))}
-                    </ul>
-                  </CardContent>
-                  <StripeCheckout
-                    stripeKey={process.env.REACT_APP_STRIPESecretKey}
-                    token={makePayment}
-                    name="Cloud Storagre"
-                    amount={product.price}
-                  >
-                    <CardActions>
-                      <Button fullWidth variant="contained" color="primary">
-                        {tier.buttonText}
-                      </Button>
-                    </CardActions>
-                  </StripeCheckout>
-                </Card>
-              </Grid>
-            ))}
-          </Grid>
-        </Container>
+                    ))}
+                  </ul>
+                </CardContent>
+                <StripeCheckout
+                  stripeKey={process.env.REACT_APP_STRIPESecretKey}
+                  token={makePayment}
+                  name="Cloud Storagre"
+                  amount={product.price}
+                >
+                  <CardActions>
+                    <Button fullWidth variant="contained" color="primary">
+                      {tiers.buttonText}
+                    </Button>
+                  </CardActions>
+                </StripeCheckout>
+              </Card>
+            </Grid>
+          </Container>
+        </div>
       </Container>
     </div>
   );
