@@ -78,15 +78,15 @@ const App: React.FC = () => {
     };
 
     // https://b41931316aeb.ngrok.io
-    fetch("https://65250dba1915.ngrok.io/payment", {
+    return fetch(`http://localhost:3001/payment`, {
       method: "POST",
       headers,
       body: JSON.stringify(body),
     })
       .then((res) => {
-        console.log(res);
+        console.log({ response: res });
         const { status } = res;
-        console.log(status);
+        console.log({ status: status });
       })
       .catch((err) => console.log(err));
   };
@@ -117,7 +117,7 @@ const App: React.FC = () => {
                 <CardContent>
                   <div className={classes.cardPricing}>
                     <Typography component="h2" variant="h3" color="textPrimary">
-                      ₹{product.price}
+                      $ {product.price}
                     </Typography>
                   </div>
                   <ul>
@@ -134,10 +134,10 @@ const App: React.FC = () => {
                   </ul>
                 </CardContent>
                 <StripeCheckout
-                  stripeKey={process.env.REACT_APP_STRIPESecretKey}
+                  stripeKey={process.env.REACT_APP_PUBLISHABLE_KEY}
                   token={makePayment}
                   name="Cloud Storagre"
-                  amount={product.price}
+                  amount={product.price * 100}
                 >
                   <CardActions>
                     <Button fullWidth variant="contained" color="primary">
